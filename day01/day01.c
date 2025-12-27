@@ -9,11 +9,20 @@ void display_input(const char *input, size_t len) {
 
 static long solve_part1(const char *input, size_t len) {
     // TODO: implement part 1 logic
-    return (long)len; // Dummy operation    
+    long floor = 0;
+    for (long unsigned int i = 0; i < len; i++) {
+        if (input[i] == '(') {
+            floor++;
+        } else if (input[i] == ')') {
+            floor--;
+        }
+    }
+    return (long)floor; // Return the final floor
 }
 
-static long solve_part2(const char * input, size_t len) {
+static long solve_part2(const char *input, size_t len) {
     // TODO: implement part 2 logic
+    printf("%s\n", input);
     return (long)len; // Dummy operation
 }
 
