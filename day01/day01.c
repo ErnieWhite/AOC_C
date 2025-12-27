@@ -22,8 +22,18 @@ static long solve_part1(const char *input, size_t len) {
 
 static long solve_part2(const char *input, size_t len) {
     // TODO: implement part 2 logic
-    printf("%s\n", input);
-    return (long)len; // Dummy operation
+    long int floor = 0;
+    for (long unsigned int i = 0; i < len; i++) {
+        if (input[i] == '(') {
+            floor++;
+        } else if (input[i] == ')') {
+            floor--;
+        }
+        if (floor == -1L) {
+            return (long)(i+1); // Return position (1-based)
+        }
+    } 
+    return -1; // Not found
 }
 
 int main(int argc, char *argv[]) {
