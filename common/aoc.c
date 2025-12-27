@@ -5,19 +5,29 @@ char *read_file(const char * path, size_t *len) {
     FILE *f = fopen(path, "rb");
     if (!f) { perror(path); return NULL; }
 
-    fseek(f, 0, SEEK_END);  // move to end of file
-    long n = ftell(f);  // get current position (file size)
+    /* move to end and get size */
+    if (fseek(f, 0, SEEK_END) != 0) { perror("ftell"); fclose(f); return NULL; }
+    long n = ftell(f);  /* file size in bytes */
+    if (n < 0) { perror("ftell"); fclose(f); return NULL; }
 
-    fseek(f, 0, SEEK_SET); // move back to beginning
-    char *buf = (char *)malloc((size_t)n + 1); // +1 for null terminator
+    fseek(f, 0, SEEK_SET); /* rewind */
+    char *buf = (char *)malloc((size_t)n + 1); /* +1 for null terminator */
+    if (!buf) { fclose(f); return NULL; } /* malloc failed */
 
-    if (!buf) { fclose(f); return NULL; } // malloc failed
+    /* Read file only if there are bytes to read; allow zero-length files */
+    if ((size_t)n > 0) {
+        size_t got = fread(buf, 1, (size_t)n, f); /* read file into buffer */
+        if (got != (size_t)n) {
+            free(buf);
+            fclose(f);
+            return NULL;
+        }
+    }
 
-    fread(buf, 1, (size_t)n, f); // read file into buffer
-    fclose(f); // close file
+    fclose(f); /* close file */
 
-    buf[n] = '\0'; // null terminate
-    if (len) *len = (size_t)n; // set length if requested
+    buf[n] = '\0'; /* null terminate */
+    if (len) *len = (size_t)n; /* set length if requested */
 
     return buf;
 }
