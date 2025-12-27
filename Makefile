@@ -86,7 +86,53 @@ new:
 	@mkdir -p day$(DAY)
 	@touch day$(DAY)/input.txt day$(DAY)/sample.txt
 	@[ -f day$(DAY)/day$(DAY).h ] || echo "/* day$(DAY)/day$(DAY).h */\n#ifndef DAY$(DAY)\n#define DAY$(DAY)\n#endif" > day$(DAY)/day$(DAY).h
-	@[ -f day$(DAY)/day$(DAY).c ] || echo "\n/* day$(DAY)/day$(DAY).c */\n#include \"day$(DAY).h\"\n#include \"../common/aoc.h\"\n\nvoid display_input(const char *input, size_t len) {\n\tprintf(\"Input (%zu bytes):\n\", len);\n\tprintf(\"%s\n\", input);\n}\n\n\tstatic long solve_part1(const char *input, size_t len) {\n\t// TODO: implement part 1 logic\n\treturn (long)len; // Dummy operation\n}\n\nstatic long solve_part2(const char * input, size_t len) {\n// TODO: implement part 2 logic\n\treturn (long)len; // Dummy operation\n}\n\nint main(int argc, char *argv[]) {\nconst char *path = (argc >1) ? argv[1] : \"day$(DAY)/input.txt\";\nsize_t len = 0;\nchar *input = read_file(path, &len);\nif (!input) return 1;\ntrim_newline(input);\n\ndouble t0 = now_ms();\nlong p1 = solve_part1(input, len);\ndouble t1 = now_ms();\ndouble t2 = now_ms();\nlong p2 = solve_part2(input, len);\ndouble t3 = now_ms();\n\ndisplay_input(input, len);\n\nprintf(\"Day $(DAY):\n\");\nprintf(\"  Part 1: %ld (%.2f ms)\n\", p1, t1 - t0);\nprintf(\"  Part 2: %ld (%.2f ms)\n\", p2, t3 - t2);\n\nfree(input);\n\nreturn 0;\n}\n\n" > day$(DAY)/day$(DAY).c
+	@[ -f day$(DAY)/day$(DAY).c ]
+	/* day$(DAY)/day$(DAY).c */
+	#include "day$(DAY).h"
+	#include "../common/aoc.h"
+	
+	void display_input(const char *input, size_t len) {
+		printf("Input (%zu bytes):\n", len);
+		printf("%s\n", input);
+	}
+	
+	static long solve_part1(const char *input, size_t len) {
+		// TODO: implement part 1 logic
+		
+		return (long)len; // Dummy operation
+	}
+	
+	static long solve_part2(const char * input, size_t len) {
+		// TODO: implement part 2 logic
+		
+		return (long)len; // Dummy operation
+	}
+		
+	int main(int argc, char *argv[]) {
+		const char *path = (argc >1) ? argv[1] : "day$(DAY)/input.txt";
+		size_t len = 0;
+		char *input = read_file(path, &len);
+		if (!input) return 1;
+		trim_newline(input);
+
+		double t0 = now_ms();
+		long p1 = solve_part1(input, len);
+		double t1 = now_ms();
+		double t2 = now_ms();
+		long p2 = solve_part2(input, len);
+		double t3 = now_ms();
+		
+		display_input(input, len);
+		printf("Day $(DAY):\n");
+		printf("  Part 1: %ld (%.2f ms)\n");
+		printf("  Part 2: %ld (%.2f ms)\n");
+		
+		free(input);
+		
+		return 0;
+	}
+	EOF	
+
 	@# Update DAYS list (manual step): edit Makefile and append $(DAY) to DAYS
 
 help:
